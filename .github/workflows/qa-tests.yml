@@ -46,7 +46,10 @@ jobs:
           cache: maven
 
       - name: Install Playwright browsers
-        run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps chromium"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2t64
+          mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps chromium"
 
       - name: Run UI tests
         run: mvn clean test -Dgroups="ui"
@@ -82,7 +85,7 @@ jobs:
           path: allure-results
 
       - name: Generate Allure report
-        uses: simple-elf/allure-report-action@v1.9
+        uses: simple-elf/allure-report-action@v1.11
         with:
           allure_results: allure-results
           allure_report: allure-report
