@@ -21,6 +21,7 @@
     <aspectj.version>1.9.22</aspectj.version>
     <allure.version>2.12.0</allure.version>
     <allureReport.version>2.27.0</allureReport.version>
+    <playwright.version>1.44.0</playwright.version>
   </properties>
 
   <dependencies>
@@ -80,6 +81,12 @@
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
       <version>${aspectj.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.microsoft.playwright</groupId>
+      <artifactId>playwright</artifactId>
+      <version>${playwright.version}</version>
     </dependency>
 
   </dependencies>
