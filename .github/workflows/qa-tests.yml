@@ -89,13 +89,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: allure-results-api
-          path: allure-results/api
+          path: allure-results
 
       - name: Download UI results
         uses: actions/download-artifact@v4
         with:
           name: allure-results-ui
-          path: allure-results/ui
+          path: allure-results
 
       - name: Install Allure CLI
         run: |
@@ -104,27 +104,15 @@ jobs:
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
-      # 🔥 FIX: normalize structure for Allure
-      - name: Flatten Allure results (CRITICAL FIX)
-        run: |
-          echo "Flattening API + UI results..."
-
-          mkdir -p allure-results-flat
-
-          find allure-results -type f -name "*.json" -exec cp {} allure-results-flat \;
-          find allure-results -type f -name "*.png" -exec cp {} allure-results-flat \;
-
-          echo "FLAT STRUCTURE:"
-          ls -R allure-results-flat
-
       - name: Debug Allure input
         run: |
-          echo "FINAL INPUT FILES:"
-          find allure-results-flat -type f
+          echo "FINAL ALLURE INPUT:"
+          ls -R allure-results
+          find allure-results -type f | wc -l
 
       - name: Generate Allure Report
         run: |
-          allure generate allure-results-flat -o allure-report --clean
+          allure generate allure-results -o allure-report --clean
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
@@ -141,7 +129,6 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-report
           force_orphan: true
-          keep_files: false
 
       - name: Add Allure Report link to summary
         if: always()
