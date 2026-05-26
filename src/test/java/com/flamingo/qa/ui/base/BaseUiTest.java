@@ -7,9 +7,12 @@ import io.qameta.allure.Allure;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
+import io.qameta.allure.junit5.AllureJunit5;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.ByteArrayInputStream;
 
+@ExtendWith(AllureJunit5.class)
 public class BaseUiTest {
 
     protected BrowserManager browserManager;
