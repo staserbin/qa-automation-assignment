@@ -106,6 +106,13 @@ jobs:
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
+      - name: Debug Allure input
+        run: |
+          echo "ALLURE INPUT STRUCTURE:"
+          find allure-results -type f
+          echo "----"
+          ls -R allure-results
+
       - name: Generate Allure Report
         run: |
           allure generate allure-results -o allure-report --clean
