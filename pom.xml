@@ -21,7 +21,7 @@
     <aspectj.version>1.9.22</aspectj.version>
     <allure.version>2.12.0</allure.version>
     <allureReport.version>2.27.0</allureReport.version>
-    <playwright.version>1.44.0</playwright.version>
+    <playwright.version>1.58.0</playwright.version>
   </properties>
 
   <dependencies>
