@@ -25,6 +25,9 @@ jobs:
       - name: Run API tests
         run: mvn clean test -Dgroups=api
 
+      - name: Debug allure folder
+        run: ls -R target/allure-results || true
+
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
