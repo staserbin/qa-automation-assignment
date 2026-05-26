@@ -1,4 +1,4 @@
-package com.flamingo.qa.api;
+package com.flamingo.qa.api.clients;
 
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
