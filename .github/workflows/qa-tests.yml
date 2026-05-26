@@ -49,12 +49,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Install Playwright browsers
-        run: |
-          mvn exec:java \
-          -Dexec.mainClass=com.microsoft.playwright.CLI \
-          -Dexec.args="install chromium"
-
       - name: Run UI tests
         run: mvn clean test -Dgroups=ui
 
