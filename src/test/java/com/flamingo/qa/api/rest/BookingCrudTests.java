@@ -5,7 +5,6 @@ import com.flamingo.qa.api.builders.BookingFactory;
 import com.flamingo.qa.api.models.request.Booking;
 import com.flamingo.qa.api.models.response.BookingResponse;
 import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -20,7 +19,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Tag("api")
-@Epic("Restful Booker API")
 @Feature("Booking CRUD")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Execution(ExecutionMode.SAME_THREAD)

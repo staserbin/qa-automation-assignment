@@ -98,9 +98,10 @@ public class RegistrationFormPage {
     public RegistrationFormPage selectState(String state) {
         page.locator("#state").click();
         page.waitForSelector("[id^='react-select-3-option']");
-        page.locator("[role='option']").filter(
-                new com.microsoft.playwright.Locator.FilterOptions().setHasText(state)
-        ).first().click();
+        page.locator("[role='option']")
+                .filter(new com.microsoft.playwright.Locator.FilterOptions().setHasText(state))
+                .first()
+                .click();
         return this;
     }
 
@@ -108,9 +109,10 @@ public class RegistrationFormPage {
     public RegistrationFormPage selectCity(String city) {
         page.locator("#city").click();
         page.waitForSelector("[id^='react-select-4-option']");
-        page.locator("[role='option']").filter(
-                new com.microsoft.playwright.Locator.FilterOptions().setHasText(city)
-        ).first().click();
+        page.locator("[role='option']")
+                .filter(new com.microsoft.playwright.Locator.FilterOptions().setHasText(city))
+                .first()
+                .click();
         return this;
     }
 

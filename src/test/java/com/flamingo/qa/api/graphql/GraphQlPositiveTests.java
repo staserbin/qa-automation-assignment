@@ -5,7 +5,6 @@ import com.flamingo.qa.api.core.graphql.QueryLoader;
 import com.flamingo.qa.api.models.graphql.GraphQlRequest;
 import com.flamingo.qa.api.models.graphql.GraphQlResponse;
 import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -23,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Tag("api")
 @Tag("graphql")
-@Epic("Hygraph Video Streaming API")
 @Feature("GraphQL Positive Scenarios")
 class GraphQlPositiveTests extends BaseApiTest {
 

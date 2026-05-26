@@ -1,6 +1,7 @@
 package com.flamingo.qa.ui.base;
 
 import com.flamingo.qa.ui.core.BrowserManager;
+import com.flamingo.qa.ui.core.PageManager;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.AfterEach;
@@ -13,12 +14,14 @@ public class BaseUiTest {
 
     protected BrowserManager browserManager;
     protected Page page;
+    protected PageManager pages;
 
     @BeforeEach
     void setUpBrowser() {
         browserManager = new BrowserManager();
         browserManager.init();
         page = browserManager.getPage();
+        pages = new PageManager(page);
     }
 
     @AfterEach

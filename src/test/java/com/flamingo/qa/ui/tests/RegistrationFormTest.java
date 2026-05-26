@@ -2,13 +2,14 @@ package com.flamingo.qa.ui.tests;
 
 import com.flamingo.qa.ui.base.BaseUiTest;
 import com.flamingo.qa.ui.builders.RegistrationFormDataFactory;
-import com.flamingo.qa.ui.components.SuccessModalComponent;
 import com.flamingo.qa.ui.model.RegistrationFormData;
-import com.flamingo.qa.ui.pages.RegistrationFormPage;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -27,11 +28,10 @@ class RegistrationFormTest extends BaseUiTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that submitting the student registration form with valid data shows the success modal " +
             "with correct student name, email and mobile")
-    void submitPracticeFormSuccessTest() {
+    void submitRegistrationFormSuccessTest() {
         RegistrationFormData data = RegistrationFormDataFactory.defaultStudent();
-        RegistrationFormPage formPage = new RegistrationFormPage(page);
 
-        SuccessModalComponent modal = formPage
+        pages.registrationFormPage()
                 .navigate()
                 .fillFirstName(data.getFirstName())
                 .fillLastName(data.getLastName())
@@ -47,16 +47,16 @@ class RegistrationFormTest extends BaseUiTest {
                 .selectCity(data.getCity())
                 .submit();
 
-        assertThat(modal.isVisible())
+        assertThat(pages.successModalComponent().isVisible())
                 .as("Success modal should be visible after form submission")
                 .isTrue();
-        assertThat(modal.getStudentName())
+        assertThat(pages.successModalComponent().getStudentName())
                 .as("Student name in modal should match submitted first and last name")
                 .isEqualTo(data.getFirstName() + " " + data.getLastName());
-        assertThat(modal.getStudentEmail())
+        assertThat(pages.successModalComponent().getStudentEmail())
                 .as("Student email in modal should match submitted email")
                 .isEqualTo(data.getEmail());
-        assertThat(modal.getMobileNumber())
+        assertThat(pages.successModalComponent().getMobileNumber())
                 .as("Mobile number in modal should match submitted mobile")
                 .isEqualTo(data.getMobile());
     }
