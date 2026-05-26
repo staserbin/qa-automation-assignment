@@ -70,10 +70,8 @@ mvn allure:serve
 
 Can be triggered manually via GitHub Actions UI (`workflow_dispatch`).
 
-**Jobs:**
-- `api-tests` - runs REST + GraphQL tests
-- `ui-tests` - installs Chromium and runs UI tests
-- `allure-report` - merges results, publishes to GitHub Pages and posts report link to pipeline summary
+**Job:**
+- `automation-tests` - runs all automated tests (API, UI, GraphQL)
 
 **Allure Report** is linked directly in the GitHub Actions pipeline summary after each run.
 
