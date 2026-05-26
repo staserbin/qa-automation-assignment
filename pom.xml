@@ -131,8 +131,8 @@
           <systemPropertyVariables>
             <allure.results.directory>target/allure-results</allure.results.directory>
 
-            <includeTags>${includeTags}</includeTags>
-            <excludeTags>${excludeTags}</excludeTags>
+<!--            <includeTags>${includeTags}</includeTags>-->
+<!--            <excludeTags>${excludeTags}</excludeTags>-->
           </systemPropertyVariables>
         </configuration>
       </plugin>
