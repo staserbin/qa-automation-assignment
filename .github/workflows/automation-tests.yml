@@ -1,4 +1,4 @@
-name: QA Automation Tests
+name: Automation Tests
 
 on:
   workflow_dispatch:
