@@ -1,6 +1,6 @@
 package com.flamingo.qa.api.base;
 
-import com.flamingo.qa.core.config.ConfigReader;
+import com.flamingo.qa.api.core.config.ConfigReader;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;

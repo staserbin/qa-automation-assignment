@@ -1,4 +1,4 @@
-package com.flamingo.qa.core.config;
+package com.flamingo.qa.api.core.config;
 
 import java.io.InputStream;
 import java.util.Properties;
