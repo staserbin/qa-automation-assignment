@@ -1,29 +1,34 @@
 package com.flamingo.qa.api.clients;
 
-import io.restassured.response.Response;
+import com.flamingo.qa.api.core.config.ConfigReader;
+import com.flamingo.qa.api.models.request.AuthRequest;
+import com.flamingo.qa.api.models.response.AuthResponse;
+import io.qameta.allure.Step;
+import io.restassured.specification.RequestSpecification;
+
 import static io.restassured.RestAssured.given;
 
 public class AuthClient {
 
-    public static String getToken(String baseUri) {
-        String body = """
-                {
-                    "username": "admin",
-                    "password": "password123"
-                }
-                """;
+    private static final String AUTH_ENDPOINT = "/auth";
 
-        Response response =
-                given()
-                        .baseUri(baseUri)
-                        .contentType("application/json")
-                        .body(body)
-                        .when()
-                        .post("/auth")
-                        .then()
-                        .statusCode(200)
-                        .extract().response();
+    @Step("POST /auth - obtain auth token")
+    public String getToken(RequestSpecification requestSpec) {
+        AuthRequest authRequest = AuthRequest.builder()
+                .username(ConfigReader.get("auth.username"))
+                .password(ConfigReader.get("auth.password"))
+                .build();
 
-        return response.jsonPath().getString("token");
+        AuthResponse response = given()
+                .spec(requestSpec)
+                .body(authRequest)
+                .when()
+                .post(AUTH_ENDPOINT)
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(AuthResponse.class);
+
+        return response.getToken();
     }
 }

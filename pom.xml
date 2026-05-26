@@ -17,7 +17,10 @@
     <assertj.version>3.27.3</assertj.version>
     <jackson.version>2.17.2</jackson.version>
     <lombok.version>1.18.34</lombok.version>
-    <allure.version>2.29.1</allure.version>
+    <javafaker.version>1.0.2</javafaker.version>
+    <aspectj.version>1.9.22</aspectj.version>
+    <allure.version>2.12.0</allure.version>
+    <allureReport.version>2.27.0</allureReport.version>
   </properties>
 
   <dependencies>
@@ -33,7 +36,6 @@
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <version>${rest.assured.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -60,20 +62,24 @@
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-junit5</artifactId>
       <version>${allure.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-rest-assured</artifactId>
       <version>${allure.version}</version>
-      <scope>test</scope>
     </dependency>
+
     <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <version>6.0.0</version>
-      <scope>compile</scope>
+      <groupId>com.github.javafaker</groupId>
+      <artifactId>javafaker</artifactId>
+      <version>${javafaker.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>${aspectj.version}</version>
     </dependency>
 
   </dependencies>
@@ -107,9 +113,22 @@
           <includes>
             <include>**/*Test.java</include>
           </includes>
+          <argLine>
+            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+          </argLine>
           <systemPropertyVariables>
             <allure.results.directory>target/allure-results</allure.results.directory>
           </systemPropertyVariables>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-maven</artifactId>
+        <version>${allure.version}</version>
+        <configuration>
+          <reportVersion>${allureReport.version}</reportVersion>
+          <resultsDirectory>allure-results</resultsDirectory>
         </configuration>
       </plugin>
 
