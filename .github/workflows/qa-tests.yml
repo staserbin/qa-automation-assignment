@@ -25,6 +25,17 @@ jobs:
       - name: Run API tests
         run: mvn clean test -Dgroups=api
 
+      - name: Final debug before upload
+        run: |
+          echo "WORKDIR:"
+          pwd
+
+          echo "ALL FILES:"
+          find . -type d -name "allure-results" || true
+
+          echo "TARGET CONTENT:"
+          ls -R target || true
+
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
@@ -51,6 +62,17 @@ jobs:
 
       - name: Run UI tests
         run: mvn clean test -Dgroups=ui
+
+      - name: Final debug before upload
+        run: |
+          echo "WORKDIR:"
+          pwd
+
+          echo "ALL FILES:"
+          find . -type d -name "allure-results" || true
+
+          echo "TARGET CONTENT:"
+          ls -R target || true
 
       - name: Upload Allure results
         if: always()
