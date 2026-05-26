@@ -49,11 +49,14 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Install Playwright browsers
         run: |
-          mvn exec:java \
-          -Dexec.mainClass=com.microsoft.playwright.CLI \
-          -Dexec.args="install --with-deps chromium"
+          npx playwright install --with-deps chromium
 
       - name: Run UI tests
         run: mvn clean test -Dgroups=ui
