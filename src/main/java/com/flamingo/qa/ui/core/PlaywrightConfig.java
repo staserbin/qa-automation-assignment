@@ -11,6 +11,10 @@ public class PlaywrightConfig {
     }
 
     public static boolean isHeadless() {
+        String ciEnv = System.getenv("CI");
+        if (ciEnv != null && ciEnv.equals("true")) {
+            return true;
+        }
         String headless = ConfigReader.get("ui.headless");
         return headless == null || Boolean.parseBoolean(headless);
     }

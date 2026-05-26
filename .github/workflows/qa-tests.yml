@@ -85,14 +85,22 @@ jobs:
           path: allure-results
           merge-multiple: true
 
-      - name: Generate Allure report
-        uses: simple-elf/allure-report-action@v1.11
+      - name: Install Allure CLI
+        run: |
+          curl -o allure.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
+          tar -zxvf allure.tgz
+          sudo mv allure-2.27.0 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+
+      - name: Generate Allure Report
+        run: |
+          allure generate allure-results -o allure-report --clean
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
         with:
-          allure_results: allure-results
-          allure_report: allure-report
-          gh_pages: gh-pages
-          allure_history: allure-history
-          keep_reports: 20
+          name: allure-report
+          path: allure-report
 
       - name: Publish Allure report to GitHub Pages
         if: github.ref == 'refs/heads/main'
@@ -100,7 +108,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: allure-report
 
       - name: Add Allure Report link to summary
         if: always()
