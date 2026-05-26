@@ -112,7 +112,10 @@ jobs:
 
       - name: Generate Allure Report
         run: |
-          allure generate allure-results -o allure-report --clean
+          allure generate allure-results \
+            -o allure-report \
+            --clean \
+            --single-file
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
@@ -121,6 +124,12 @@ jobs:
           path: allure-report
           if-no-files-found: error
 
+      - name: Restore Allure history
+        run: |
+          if [ -d gh-pages/history ]; then
+            cp -R gh-pages/history allure-report/history || true
+          fi
+
       - name: Publish Allure report to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
@@ -128,7 +137,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-report
-          force_orphan: true
+          keep_files: true
 
       - name: Add Allure Report link to summary
         if: always()
