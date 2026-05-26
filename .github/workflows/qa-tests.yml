@@ -48,10 +48,11 @@ jobs:
       - name: Install system dependencies for Playwright
         run: |
           sudo apt-get update
-          sudo apt-get install -y libasound2t64 libgbm1 libnss3 libxss1 libxtst6
+          sudo apt-get install -y libasound2t64
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libasound.so.2 /usr/lib/x86_64-linux-gnu/libasound.so || true
 
       - name: Install Playwright browsers
-        run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install chromium"
+        run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps chromium"
 
       - name: Run UI tests
         run: mvn clean test -Dgroups="ui"
