@@ -25,24 +25,21 @@ jobs:
       - name: Run API tests
         run: mvn clean test -Dgroups=api
 
-      - name: Final debug before upload
+      - name: Debug API Allure results
         run: |
           echo "WORKDIR:"
           pwd
-
-          echo "ALL FILES:"
-          find . -type d -name "allure-results" || true
-
-          echo "TARGET CONTENT:"
+          echo "ALLURE RESULTS:"
+          find target -type d -name "allure-results" || true
           ls -R target || true
 
-      - name: Upload Allure results
+      - name: Upload API Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-results-api
           path: target/allure-results
-          if-no-files-found: ignore
+          if-no-files-found: error
           retention-days: 7
 
   ui-tests:
@@ -63,24 +60,21 @@ jobs:
       - name: Run UI tests
         run: mvn clean test -Dgroups=ui
 
-      - name: Final debug before upload
+      - name: Debug UI Allure results
         run: |
           echo "WORKDIR:"
           pwd
-
-          echo "ALL FILES:"
-          find . -type d -name "allure-results" || true
-
-          echo "TARGET CONTENT:"
+          echo "ALLURE RESULTS:"
+          find target -type d -name "allure-results" || true
           ls -R target || true
 
-      - name: Upload Allure results
+      - name: Upload UI Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-results-ui
           path: target/allure-results
-          if-no-files-found: ignore
+          if-no-files-found: error
           retention-days: 7
 
   allure-report:
@@ -93,19 +87,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download API Allure results
+      - name: Download API results
         uses: actions/download-artifact@v4
         with:
           name: allure-results-api
-          path: allure-results
-          merge-multiple: true
+          path: allure-results/api
 
-      - name: Download UI Allure results
+      - name: Download UI results
         uses: actions/download-artifact@v4
         with:
           name: allure-results-ui
-          path: allure-results
-          merge-multiple: true
+          path: allure-results/ui
 
       - name: Install Allure CLI
         run: |
@@ -123,6 +115,7 @@ jobs:
         with:
           name: allure-report
           path: allure-report
+          if-no-files-found: error
 
       - name: Publish Allure report to GitHub Pages
         if: github.ref == 'refs/heads/main'
@@ -131,10 +124,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-report
+          force_orphan: true
 
       - name: Add Allure Report link to summary
         if: always()
         run: |
-          echo "## Allure Test Report" >> $GITHUB_STEP_SUMMARY
+          echo "### Allure Test Report" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> $GITHUB_STEP_SUMMARY
+          echo "[Open Allure Report](https://staserbin.github.io/qa-automation-assignment/)" >> $GITHUB_STEP_SUMMARY
