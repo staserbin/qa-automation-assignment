@@ -1,0 +1,6 @@
+query GetMoviesPaginated($first: Int!, $skip: Int!) {
+  movies(first: $first, skip: $skip) {
+    id
+    title
+  }
+}
