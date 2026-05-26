@@ -43,3 +43,10 @@ jobs:
           publish_dir: allure-report
           destination_dir: api
           force_orphan: true
+
+      - name: Add API Allure Report link to summary
+        if: always()
+        run: |
+          echo "### API Allure Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[Open API Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/api/)" >> $GITHUB_STEP_SUMMARY
