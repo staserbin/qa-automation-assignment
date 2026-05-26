@@ -25,13 +25,12 @@ jobs:
       - name: Run API tests
         run: mvn clean test -Dgroups=api
 
-      - name: Debug API Allure results
+      - name: VERIFY ALLURE AFTER TESTS
         run: |
-          echo "WORKDIR:"
-          pwd
-          echo "ALLURE RESULTS:"
-          find target -type d -name "allure-results" || true
-          ls -R target || true
+          echo "CHECKING ALLURE RESULTS..."
+          ls -R target/allure-results || true
+          echo "COUNT:"
+          find target/allure-results -type f | wc -l
 
       - name: Upload API Allure results
         if: always()
@@ -60,13 +59,12 @@ jobs:
       - name: Run UI tests
         run: mvn clean test -Dgroups=ui
 
-      - name: Debug UI Allure results
+      - name: VERIFY ALLURE AFTER TESTS
         run: |
-          echo "WORKDIR:"
-          pwd
-          echo "ALLURE RESULTS:"
-          find target -type d -name "allure-results" || true
-          ls -R target || true
+          echo "CHECKING ALLURE RESULTS..."
+          ls -R target/allure-results || true
+          echo "COUNT:"
+          find target/allure-results -type f | wc -l
 
       - name: Upload UI Allure results
         if: always()
