@@ -45,11 +45,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Install Playwright browsers
+      - name: Install system dependencies for Playwright
         run: |
           sudo apt-get update
-          sudo apt-get install -y libasound2t64
-          mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps chromium"
+          sudo apt-get install -y libasound2t64 libgbm1 libnss3 libxss1 libxtst6
+
+      - name: Install Playwright browsers
+        run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install chromium"
 
       - name: Run UI tests
         run: mvn clean test -Dgroups="ui"
