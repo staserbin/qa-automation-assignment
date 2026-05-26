@@ -25,12 +25,14 @@ jobs:
       - name: Run API tests
         run: mvn clean test -Dgroups=api
 
-      - name: VERIFY ALLURE AFTER TESTS
+      - name: Verify API Allure results
         run: |
-          echo "CHECKING ALLURE RESULTS..."
+          echo "=== API ALLURE RESULTS ==="
           ls -R target/allure-results || true
-          echo "COUNT:"
-          find target/allure-results -type f | wc -l
+          echo "RESULT FILES:"
+          find target/allure-results -name "*-result.json" | wc -l
+          echo "CONTAINER FILES:"
+          find target/allure-results -name "*-container.json" | wc -l
 
       - name: Upload API Allure results
         if: always()
@@ -59,12 +61,14 @@ jobs:
       - name: Run UI tests
         run: mvn clean test -Dgroups=ui
 
-      - name: VERIFY ALLURE AFTER TESTS
+      - name: Verify UI Allure results
         run: |
-          echo "CHECKING ALLURE RESULTS..."
+          echo "=== UI ALLURE RESULTS ==="
           ls -R target/allure-results || true
-          echo "COUNT:"
-          find target/allure-results -type f | wc -l
+          echo "RESULT FILES:"
+          find target/allure-results -name "*-result.json" | wc -l
+          echo "CONTAINER FILES:"
+          find target/allure-results -name "*-container.json" | wc -l
 
       - name: Upload UI Allure results
         if: always()
@@ -97,6 +101,15 @@ jobs:
           name: allure-results-ui
           path: allure-results
 
+      - name: Verify merged Allure input
+        run: |
+          echo "=== MERGED ALLURE RESULTS ==="
+          ls -R allure-results || true
+          echo "RESULT FILES:"
+          find allure-results -name "*-result.json" | wc -l
+          echo "CONTAINER FILES:"
+          find allure-results -name "*-container.json" | wc -l
+
       - name: Install Allure CLI
         run: |
           curl -o allure.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
@@ -104,18 +117,9 @@ jobs:
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
-      - name: Debug Allure input
-        run: |
-          echo "FINAL ALLURE INPUT:"
-          ls -R allure-results
-          find allure-results -type f | wc -l
-
       - name: Generate Allure Report
         run: |
-          allure generate allure-results \
-            -o allure-report \
-            --clean \
-            --single-file
+          allure generate allure-results -o allure-report --clean
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
@@ -124,12 +128,6 @@ jobs:
           path: allure-report
           if-no-files-found: error
 
-      - name: Restore Allure history
-        run: |
-          if [ -d gh-pages/history ]; then
-            cp -R gh-pages/history allure-report/history || true
-          fi
-
       - name: Publish Allure report to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
@@ -137,7 +135,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-report
-          keep_files: true
+          force_orphan: true
+          keep_files: false
 
       - name: Add Allure Report link to summary
         if: always()
