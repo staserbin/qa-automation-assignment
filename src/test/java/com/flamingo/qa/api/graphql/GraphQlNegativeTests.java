@@ -20,7 +20,6 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Tag("api")
 @Tag("graphql")
 @Feature("GraphQL Negative Scenarios")
 class GraphQlNegativeTests extends BaseApiTest {

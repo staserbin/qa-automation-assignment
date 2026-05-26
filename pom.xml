@@ -122,7 +122,6 @@
           <includes>
             <include>**/*Test.java</include>
             <include>**/*Tests.java</include>
-            <include>**/Test*.java</include>
           </includes>
 
           <argLine>
@@ -131,6 +130,9 @@
 
           <systemPropertyVariables>
             <allure.results.directory>target/allure-results</allure.results.directory>
+
+            <includeTags>${includeTags}</includeTags>
+            <excludeTags>${excludeTags}</excludeTags>
           </systemPropertyVariables>
         </configuration>
       </plugin>
