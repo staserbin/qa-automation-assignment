@@ -31,6 +31,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup Java and Maven
         uses: ./.github/actions/setup-java-maven
 
@@ -55,6 +58,9 @@ jobs:
     if: always()
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup Java and Maven
         uses: ./.github/actions/setup-java-maven
 
@@ -89,6 +95,6 @@ jobs:
       - name: Add Allure Report link to summary
         if: always()
         run: |
-            echo "### Allure Test Report" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "[Open Allure Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/)" >> $GITHUB_STEP_SUMMARY
+          echo "### Allure Test Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[Open Allure Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/)" >> $GITHUB_STEP_SUMMARY
